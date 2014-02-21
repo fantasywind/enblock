@@ -1,0 +1,30 @@
+{
+  "name": "enblock",
+  "version": "0.0.0",
+  "homepage": "https://github.com/fantasywind/enblock",
+  "authors": [
+    "Chai Yu Pai <fantasyatelier@gmail.com>"
+  ],
+  "description": "Block style text editor",
+  "main": "enblock.js",
+  "keywords": [
+    "enblock"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.2.13"
+  },
+  "devDependencies": {
+    "angular": "~1.2.13",
+    "bootstrap": "~3.1.1",
+    "font-awesome": "~4.0.3"
+  }
+}
