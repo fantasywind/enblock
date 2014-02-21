@@ -1,0 +1,11 @@
+doctype
+html(ng-app='enblock')
+  head
+    link(rel='stylesheet', href='bower_components/bootstrap/dist/css/bootstrap.min.css')
+    link(rel='stylesheet', href='bower_components/font-awesome/css/font-awesome.min.css')
+    title enblock sample
+  body
+    div.enblock(data-mode='edit', data-original='enblockOriginal', data-result='enblockResult')
+
+    script(src='bower_components/angular/angular.js')
+    script(src='enblock.js')
