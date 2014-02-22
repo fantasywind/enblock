@@ -1,11 +1,17 @@
 doctype
-html(ng-app='enblock')
+html(ng-app='sample')
   head
     link(rel='stylesheet', href='bower_components/bootstrap/dist/css/bootstrap.min.css')
     link(rel='stylesheet', href='bower_components/font-awesome/css/font-awesome.min.css')
     title enblock sample
-  body
-    div.enblock(data-mode='edit', data-original='enblockOriginal', data-result='enblockResult')
-
+  body(ng-controller='sampleCtrl')
+    div.enblock(mode='enblockMode', controller='enblock', enabled-tools="['paragraph', 'gallery']")
+      div.enblock-paragraph
+      div.enblock-paragraph
+      div.enblock-gallery
     script(src='bower_components/angular/angular.js')
+    script.
+      angular.module('sample', ['enblock']).controller('sampleCtrl', function ($scope) {
+        
+      });
     script(src='enblock.js')
