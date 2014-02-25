@@ -3,12 +3,16 @@ html(ng-app='sample')
   head
     link(rel='stylesheet', href='bower_components/bootstrap/dist/css/bootstrap.min.css')
     link(rel='stylesheet', href='bower_components/font-awesome/css/font-awesome.min.css')
+    link(rel='stylesheet', href='main.css')
     title enblock sample
   body(ng-controller='sampleCtrl')
-    div.enblock(mode='enblockMode', controller='enblock', enabled-tools="['paragraph', 'gallery']")
-      div.enblock-paragraph
-      div.enblock-paragraph
-      div.enblock-gallery
+    div.container
+      div.row
+        div.col-md-12
+          div.enblock(mode='enblockMode', controller='enblock', enabled-tools="['paragraph', 'gallery']")
+            div.enblock-paragraph 如果有一天，我們再見面，時間會不會倒退一點？也許我們都忽略，互相傷害之外的感覺。如果哪一天，我們都發現，好聚好散不過是種遮掩如果我們沒發現？就給彼此多一點時間。
+            div.enblock-paragraph 那樣的我們，你怎麼會不知道
+            div.enblock-gallery
     script(src='bower_components/angular/angular.js')
     script.
       angular.module('sample', ['enblock']).controller('sampleCtrl', function ($scope) {
