@@ -1,6 +1,7 @@
 SELECTED_BACKGROUND = #ECF5FF
 SELECTED_BORDER_COLOR = #08C
 SELECTED_TAG_BACKGROUND = desaturate(lighten(#f1c40f, 70%), 10%)
+PARAGRAPH_COLOR = #666
 
 .enblock
   padding 10px 6px
@@ -28,14 +29,15 @@ SELECTED_TAG_BACKGROUND = desaturate(lighten(#f1c40f, 70%), 10%)
     border-color SELECTED_BORDER_COLOR
     background-color SELECTED_BACKGROUND
   p
-    display inline-block
     margin 0
+    color PARAGRAPH_COLOR
+    transition color 0.12s linear
 
 // Element Tag
 .enblock-block-tag
   font-size 10.5pt
   display inline-block
-  margin 0 8px 4px 0
+  margin 2px 8px 4px 0
   background-color #DFDFDF
   border 1px solid #AAA
   border-radius 2px
@@ -49,3 +51,7 @@ SELECTED_TAG_BACKGROUND = desaturate(lighten(#f1c40f, 70%), 10%)
   .enblock-block-tag
     background-color SELECTED_TAG_BACKGROUND
     border-color darken(SELECTED_TAG_BACKGROUND, 30%)
+
+  &.enblock-paragraph
+    p
+      color #222
