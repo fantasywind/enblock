@@ -1,1 +1,7 @@
-p.enblock-element(ng-class='elemClass') I am gallery
+div.enblock-element(ng-click='select()', contenteditable='false')
+  div.enblock-element-header
+    span.enblock-block-tag Gallery
+  div.enblock-gallery-origin(ng-transclude)
+  div(ng-repeat='photo in photos', ng-if='mode === SQUARE')
+    div.enblock-gallery-image-wrap
+      img.enblock-gallery-image(ng-src='{{photo.src}}')

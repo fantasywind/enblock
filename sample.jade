@@ -12,7 +12,10 @@ html(ng-app='sample')
           div.enblock(mode='enblockMode', controller='enblock', enabled-tools="['paragraph', 'gallery']")
             div.enblock-paragraph.enblock-child 如果有一天，我們再見面，時間會不會倒退一點？也許我們都忽略，互相傷害之外的感覺。如果哪一天，我們都發現，好聚好散不過是種遮掩如果我們沒發現？就給彼此多一點時間。
             div.enblock-paragraph.enblock-child 那樣的我們，你怎麼會不知道
-            div.enblock-gallery.enblock-child
+            div.enblock-gallery.enblock-child(data-mode='abe')
+              div.enblock-gallery-image-source(data-src='//placehold.it/200x200')
+              div.enblock-gallery-image-source(data-src='//placehold.it/200x200')
+              div.enblock-gallery-image-source(data-src='//placehold.it/200x200')
     script(src='bower_components/angular/angular.js')
     script.
       angular.module('sample', ['enblock']).controller('sampleCtrl', function ($scope) {

@@ -5,6 +5,7 @@ DEFAULT =
   ORIGINAL: []
   ENABLEDTOOLS: ['paragraph', 'gallery']
 
+# Detect for text editing return send
 contentKeypress = (e)->
   # Insert <br> when press return key
   if (e.keyCode or e.which) is 13
@@ -18,6 +19,27 @@ contentKeypress = (e)->
       _range.setEnd _nextText, 0
       _selection.empty()
       _selection.addRange _range
+
+# Photo class for Gallery
+class GalleryPhoto
+  constructor: (options)->
+    {meta, @containerScope, @containerElem} = options
+
+    @status = GalleryPhoto::INITIAL
+    @setSource meta.src
+
+    # Push to container
+    @containerScope.photos.push @
+
+  setSource: (src)->
+    # Need: add link parsing and testing
+    @src = src
+    @status = GalleryPhoto::SOURCESET
+
+  getSource: -> @src
+
+  SOURCESET: 'sourceSet'
+  INITIAL: 'initial'
 
 enblock.directive 'enblock', ->
   restrict: 'CE'
@@ -85,5 +107,34 @@ enblock.directive 'enblockGallery', ->
   restrict: 'CE'
   require: '^enblock'
   templateUrl: 'element-gallery.html'
-  scope: {}
+  scope:
+    mode: '@mode'
+  transclude: true
   link: (scope, element, attrs, enblock)->
+    # Photo List
+    scope.photos = []
+
+    # Constant
+    scope.SQUARE = 'square'
+
+    allowModes = [scope.SQUARE]
+
+    # Gallery Mode
+    attrs.$set 'mode', scope.SQUARE if !attrs.mode? or allowModes.indexOf(attrs.mode) is -1
+
+    # Push original images
+    originImages = element[0].querySelectorAll '.enblock-gallery-origin > .enblock-gallery-image-source'
+
+    for image in originImages
+      if image.dataset?
+        photo = new GalleryPhoto
+          meta: image.dataset
+          containerScope: scope
+          containerElem: element
+    window.aaa = scope
+
+    scope.select = ->
+      enblock.setSelected element
+
+
+
