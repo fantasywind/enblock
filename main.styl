@@ -1,3 +1,7 @@
+SELECTED_BACKGROUND = #ECF5FF
+SELECTED_BORDER_COLOR = #08C
+SELECTED_TAG_BACKGROUND = desaturate(lighten(#f1c40f, 70%), 10%)
+
 .enblock
   padding 10px 6px
   border 1px solid #CCC
@@ -13,14 +17,21 @@
   font-size 14pt
 .enblock-element
   padding 3px 8px
+
+.enblock-child
+  margin 3px 0
+  border 1px solid transparent
+
+// Paragraph
 .enblock-paragraph
   &:hover
-    border 1px solid #08C
-    border-radius 4px
-    background-color #ECF5FF
+    border-color SELECTED_BORDER_COLOR
+    background-color SELECTED_BACKGROUND
   p
     display inline-block
     margin 0
+
+// Element Tag
 .enblock-block-tag
   font-size 10.5pt
   display inline-block
@@ -30,3 +41,11 @@
   border-radius 2px
   padding 2px 6px
   line-height 14pt
+
+// Selected
+.enblock-selected
+  background-color lighten(SELECTED_BACKGROUND, 20%)
+  border-color lighten(SELECTED_BORDER_COLOR, 30%)
+  .enblock-block-tag
+    background-color SELECTED_TAG_BACKGROUND
+    border-color darken(SELECTED_TAG_BACKGROUND, 30%)
