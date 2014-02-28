@@ -57,23 +57,58 @@ PARAGRAPH_COLOR = #666
 
 // Gallery
 .enblock-gallery-description-wrap
-  width 100%
-  max-height 42px
-  position absolute
-  bottom 0
-  background-color rgba(0, 0, 0, 0.7)
-  transition max-height 0.6s ease-out
+  &.square
+    width 100%
+    max-height 42px
+    position absolute
+    bottom 0
+    background-color rgba(0, 0, 0, 0.7)
+    transition max-height 0.6s ease-out
 
 .enblock-gallery-description
-  color #FCFCFC
-  margin 4px 8px
-  font-size 10pt
+  &.square
+    color #FCFCFC
+    margin 4px 8px
+    font-size 10pt
+  &.single
+    color #777
+    margin 6px 8px 8px 8px
+    font-size 10pt
+
+.enblock-gallery-image
+  &.square
+    width 200px
+    height 200px
+  &.single
+    min-width 40%
+    max-width 100%
 
 .enblock-gallery-image-container
-  display inline-block
-  margin 7px
-  position relative
-  overflow hidden
+  &.square
+    display inline-block
+    margin 7px
+    position relative
+    overflow hidden
+    &:hover
+      .enblock-gallery-description-wrap
+        max-height 100%
+  &.single
+    display block
+    text-align center
+
+.enblock-gallery-toolbar
+  float right
+
+.enblock-gallery-toolbar-button
+  background-color transparent
+  border 1px solid #AAA
+  margin 0 3px
+  font-size 10pt
+  padding 4px 6px 2px 6px
+  outline none
   &:hover
-    .enblock-gallery-description-wrap
-      max-height 100%
+    background-color #777
+    color #FFF
+  &.active
+    background-color #555
+    color #FCFCFC

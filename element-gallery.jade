@@ -1,9 +1,14 @@
 div.enblock-element(ng-click='select()', contenteditable='false')
   div.enblock-element-header
     span.enblock-block-tag Gallery
+    div.enblock-gallery-toolbar
+      button.enblock-gallery-toolbar-button(type='button', ng-class="mode === SINGLE ? 'active' : ''", ng-click="mode = SINGLE")
+        span.fa.fa-stop
+      button.enblock-gallery-toolbar-button(type='button', ng-class="mode === SQUARE ? 'active' : ''", ng-click="mode = SQUARE")
+        span.fa.fa-th
   div.enblock-gallery-origin(ng-transclude)
-  div.enblock-gallery-image-container(ng-repeat='photo in photos', ng-if='mode === SQUARE')
-    div.enblock-gallery-image-wrap
-      img.enblock-gallery-image(ng-src='{{photo.src}}')
-    div.enblock-gallery-description-wrap
-      p.enblock-gallery-description(ng-bind='photo.description')
+  div.enblock-gallery-image-container(ng-repeat='photo in photos', ng-class='mode', ng-if='mode === SQUARE || mode === SINGLE')
+    div.enblock-gallery-image-wrap(ng-class='mode')
+      img.enblock-gallery-image(ng-src='{{photo.src}}', ng-class='mode')
+    div.enblock-gallery-description-wrap(ng-class='mode')
+      p.enblock-gallery-description(ng-bind='photo.description', ng-class='mode')

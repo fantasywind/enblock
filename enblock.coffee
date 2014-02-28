@@ -115,8 +115,9 @@ enblock.directive 'enblockGallery', ->
 
     # Constant
     scope.SQUARE = 'square'
+    scope.SINGLE = 'single'
 
-    allowModes = [scope.SQUARE]
+    allowModes = [scope.SQUARE, scope.SINGLE]
 
     # Gallery Mode
     attrs.$set 'mode', scope.SQUARE if !attrs.mode? or allowModes.indexOf(attrs.mode) is -1
