@@ -27,6 +27,7 @@ class GalleryPhoto
 
     @status = GalleryPhoto::INITIAL
     @setSource meta.src
+    @description = meta.description
 
     # Push to container
     @containerScope.photos.push @
@@ -35,8 +36,6 @@ class GalleryPhoto
     # Need: add link parsing and testing
     @src = src
     @status = GalleryPhoto::SOURCESET
-
-  getSource: -> @src
 
   SOURCESET: 'sourceSet'
   INITIAL: 'initial'

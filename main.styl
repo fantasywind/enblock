@@ -54,3 +54,26 @@ PARAGRAPH_COLOR = #666
   &.enblock-paragraph
     p
       color #222
+
+// Gallery
+.enblock-gallery-description-wrap
+  width 100%
+  max-height 42px
+  position absolute
+  bottom 0
+  background-color rgba(0, 0, 0, 0.7)
+  transition max-height 0.6s ease-out
+
+.enblock-gallery-description
+  color #FCFCFC
+  margin 4px 8px
+  font-size 10pt
+
+.enblock-gallery-image-container
+  display inline-block
+  margin 7px
+  position relative
+  overflow hidden
+  &:hover
+    .enblock-gallery-description-wrap
+      max-height 100%
