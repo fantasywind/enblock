@@ -1,6 +1,7 @@
 SELECTED_BACKGROUND = #ECF5FF
 SELECTED_BORDER_COLOR = #08C
 SELECTED_TAG_BACKGROUND = desaturate(lighten(#f1c40f, 70%), 10%)
+TOOLBAR_BORDER_COLOR = #34495e
 PARAGRAPH_COLOR = #666
 
 .enblock
@@ -25,12 +26,6 @@ PARAGRAPH_COLOR = #666
   &:hover
     border-color SELECTED_BORDER_COLOR
     background-color SELECTED_BACKGROUND
-// Paragraph
-.enblock-paragraph
-  p
-    margin 0
-    color PARAGRAPH_COLOR
-    transition color 0.12s linear
 
 // Element Tag
 .enblock-block-tag
@@ -54,6 +49,36 @@ PARAGRAPH_COLOR = #666
   &.enblock-paragraph
     p
       color #222
+
+// Paragraph
+.enblock-paragraph
+  p
+    margin 0
+    color PARAGRAPH_COLOR
+    outline none
+    transition color 0.12s linear
+
+.enblock-paragraph-toolbar
+  position absolute
+  background-color #F5F5F5
+  border 1px solid TOOLBAR_BORDER_COLOR
+  > .enblock-paragraph-toolbutton
+    width 32px
+    height 26px
+    font-size 16px
+    text-align center
+    background transparent
+    border 0
+    color #333
+    outline none
+    border-right 1px solid TOOLBAR_BORDER_COLOR
+    &:last-child
+      border-right 0
+    &:hover
+      background-color #E3E3E3
+      color #222
+    &:active
+      background-color #DDD
 
 // Gallery
 .enblock-gallery-description-wrap

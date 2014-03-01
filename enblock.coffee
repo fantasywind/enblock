@@ -20,6 +20,15 @@ contentKeypress = (e)->
       _selection.empty()
       _selection.addRange _range
 
+# Get selection position from Range
+getPositionFromRange = (range)->
+  return false if !range instanceof Range
+
+  if angular.isFunction range.getBoundingClientRect
+    return range.getBoundingClientRect()
+  else
+    console.log 'Custom function'
+
 # Photo class for Gallery
 class GalleryPhoto
   constructor: (options)->
@@ -103,12 +112,45 @@ enblock.directive 'enblockParagraph', ->
   templateUrl: 'element-paragraph.html'
   scope: {}
   link: (scope, element, attrs, enblock)->
+
+    ### -- Utility -- ###
+    # Generate Toolbar Position Style
+    generateToolStyle = (position, styleCollection)->
+      return false if !angular.isObject position
+      styleCollection = {} if !angular.isObject styleCollection
+      console.log "left: #{position.left}, right: #{position.right}, width: #{position.width}"
+      try
+        left = parseInt(position.left - 162, 10)
+        styleCollection.left = (if left > 0 then left else position.left) + 'px'
+        styleCollection.top = parseInt(position.top, 10) - 36 + 'px'
+      catch e
+        console.log "Error for position object when set toolbar position."
+
+      return styleCollection
+
+    ### -- Initial Variable -- ###
+    scope.showTool = false
+    scope.toolStyle = {}
+
+    # Select paragraph
     scope.select = ->
       enblock.setSelected element
 
+    # Close toolbar when blur
+    scope.blur = (e)->
+      return false if e.relatedTarget is null # Click other window
+      return false if e.relatedTarget.classList.contains('enblock-paragraph-toolbutton')
+      scope.showTool = false
+
+    # Check selection
     scope.checkSelection = ->
       if enblock.checkSelection() is 'Range'
-        console.log '!!!Range'
+        scope.showTool = true
+        range = document.getSelection().getRangeAt(0)
+        position = getPositionFromRange range
+        scope.toolStyle = generateToolStyle position
+      else
+        scope.showTool = false
 
 
 enblock.directive 'enblockGallery', ->
