@@ -20,14 +20,57 @@ contentKeypress = (e)->
       _selection.empty()
       _selection.addRange _range
 
+# Select element
+selectElement = (element)->
+  newRange = document.createRange()
+  newRange.selectNode element
+  selection = document.getSelection()
+  selection.removeAllRanges()
+  selection.addRange newRange
+  return newRange
+
+# Clean measurer
+cleanMeasurer = ->
+  measurer = document.querySelector '.enblock-measurer'
+  if measurer?
+    parent = measurer.parentNode
+    # Re-create span innerHTML DOMs
+    for elem in measurer.childNodes
+      if elem.nodeType is 3
+        newElem = document.createTextNode elem.nodeValue
+      else if elem.nodeName is 'BR'
+        newElem = document.createElement 'br'
+      else
+        continue
+      parent.insertBefore newElem, measurer
+    measurer.remove()
+    parent.normalize()
+
 # Get selection position from Range
 getPositionFromRange = (range)->
   return false if !range instanceof Range
 
-  if angular.isFunction range.getBoundingClientRect
+  # Clean measurer
+  cleanMeasurer()
+
+  if !angular.isFunction range.getBoundingClientRect
     return range.getBoundingClientRect()
   else
-    console.log 'Custom function'
+    measurer = document.createElement 'span'
+    selectedContent = range.cloneContents()
+    measurer.appendChild range.cloneContents()
+    measurer.classList.add 'enblock-measurer'
+    range.deleteContents()
+    range.insertNode measurer
+    selectElement measurer
+    return {
+      top: measurer.offsetTop
+      left: measurer.offsetLeft
+      width: measurer.offsetWidth
+      height: measurer.offsetHeight
+      right: measurer.offsetLeft + measurer.offsetWidth
+      bottom: measurer.offsetTop + measurer.offsetHeight
+    }
 
 # Photo class for Gallery
 class GalleryPhoto
@@ -118,13 +161,12 @@ enblock.directive 'enblockParagraph', ->
     generateToolStyle = (position, styleCollection)->
       return false if !angular.isObject position
       styleCollection = {} if !angular.isObject styleCollection
-      console.log "left: #{position.left}, right: #{position.right}, width: #{position.width}"
       try
         left = parseInt(position.left - 162, 10)
         styleCollection.left = (if left > 0 then left else position.left) + 'px'
         styleCollection.top = parseInt(position.top, 10) - 36 + 'px'
       catch e
-        console.log "Error for position object when set toolbar position."
+        console.error "Error for position object when set toolbar position."
 
       return styleCollection
 
@@ -138,9 +180,9 @@ enblock.directive 'enblockParagraph', ->
 
     # Close toolbar when blur
     scope.blur = (e)->
-      return false if e.relatedTarget is null # Click other window
-      return false if e.relatedTarget.classList.contains('enblock-paragraph-toolbutton')
+      return false if e.relatedTarget and e.relatedTarget.classList.contains('enblock-paragraph-toolbutton')
       scope.showTool = false
+      cleanMeasurer()
 
     # Check selection
     scope.checkSelection = ->
