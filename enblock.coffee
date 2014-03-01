@@ -82,6 +82,10 @@ enblock.directive 'enblock', ->
       $scope.selected = null
       return true
 
+    # Check selection status
+    @checkSelection = ->
+      return document.getSelection().type
+
     return @
 
 enblock.directive 'enblockToolbar', ->
@@ -101,6 +105,11 @@ enblock.directive 'enblockParagraph', ->
   link: (scope, element, attrs, enblock)->
     scope.select = ->
       enblock.setSelected element
+
+    scope.checkSelection = ->
+      if enblock.checkSelection() is 'Range'
+        console.log '!!!Range'
+
 
 enblock.directive 'enblockGallery', ->
   restrict: 'CE'
@@ -131,7 +140,6 @@ enblock.directive 'enblockGallery', ->
           meta: image.dataset
           containerScope: scope
           containerElem: element
-    window.aaa = scope
 
     scope.select = ->
       enblock.setSelected element

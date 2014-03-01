@@ -1,4 +1,4 @@
 div.enblock-element(ng-click='select()')
   div.enblock-element-header
-    span.enblock-block-tag(contenteditable='false') Paragraph
-  p(ng-class='elemClass', ng-transclude)
+    span.enblock-block-tag Paragraph
+  p(contenteditable='true', ng-class='elemClass', ng-transclude, ng-mouseup='checkSelection()', ng-keydown='checkSelection()')
