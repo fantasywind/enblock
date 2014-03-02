@@ -50,10 +50,8 @@ cleanMeasurer = ->
         newElem = document.createTextNode elem.nodeValue
       else if elem.nodeName is 'BR'
         newElem = document.createElement 'br'
-      else if elem.classList.contains 'enblock-style'
+      else 
         newElem = elem.cloneNode true
-      else
-        continue
       parent.insertBefore newElem, measurer
     measurer.remove()
     parent.normalize()
@@ -169,42 +167,51 @@ enblock.directive 'enblockParagraph', ->
 
     ### -- Utility -- ###
     # Generate Toolbar Position Style
-    generateToolStyle = (position, styleCollection)->
+    generateToolStyle = (position, toolStyle)->
       return false if !angular.isObject position
-      styleCollection = {} if !angular.isObject styleCollection
+      toolStyle = {} if !angular.isObject toolStyle
+      colorPickerStyle = {}
       try
         left = parseInt(position.left - 162, 10)
-        styleCollection.left = (if left > 0 then left else position.left) + 'px'
-        styleCollection.top = parseInt(position.top, 10) - 36 + 'px'
+        toolStyle.left = (if left > 0 then left else position.left) + 'px'
+        toolStyle.top = parseInt(position.top, 10) - 36 + 'px'
+        colorPickerStyle.left = toolStyle.left
+        colorPickerStyle.top = parseInt(position.top, 10) - 60 + 'px'
       catch e
         console.error "Error for position object when set toolbar position."
 
-      return styleCollection
+      return {
+        tool: toolStyle
+        colorPicker: colorPickerStyle
+      }
 
     ### -- Initial Variable -- ###
     scope.showTool = false
+    scope.showColorPicker = false
     scope.toolStyle = {}
+    scope.colorPickerStyle = {}
+    scope.colorList = ['#e74c3c', '#e67e22', '#f1c40f', '#2ecc71', '#3498db', '#34495e', '#9b59b6', '#000']
 
-    # Tool button
+    # Bold
+    scope.bold = ->
+      document.execCommand 'bold', false
+
+    # Underline
+    scope.italic = ->
+      document.execCommand 'italic', false
+
+    # Underline
     scope.underline = ->
-      newElem = document.createElement "span"
-      newElem.classList.add 'enblock-style'
-      selection = getSelection()
-      for elem in selection.nodes
-        if elem.nodeType is 3
-          underline = document.createElement 'u'
-          underline.innerHTML = elem.nodeValue
-          newElem.appendChild underline
-        else if elem.classList.contains 'enblock-style'
-          for child in elem.childNodes
-            newElem.appendChild child.cloneNode true
-      measurer = element[0].querySelector('.enblock-measurer')
-      measurer.remove() if measurer?
-      selection.range.deleteContents()
-      selection.range.insertNode newElem
-      selection.range.selectNode newElem
-      selection.self.removeAllRanges()
-      selection.self.addRange selection.range
+      document.execCommand 'underline', false
+
+    # Color
+    scope.color = ->
+      scope.showColorPicker = !scope.showColorPicker
+
+    scope.changeForeColor = (color)->
+      return false if !angular.isString color
+      document.execCommand 'foreColor', false, color
+      scope.showColorPicker = false
 
     # Select paragraph
     scope.select = ->
@@ -212,7 +219,7 @@ enblock.directive 'enblockParagraph', ->
 
     # Close toolbar when blur
     scope.blur = (e)->
-      return false if e.relatedTarget and e.relatedTarget.classList.contains('enblock-paragraph-toolbutton')
+      return false if e.relatedTarget and (e.relatedTarget.classList.contains('enblock-paragraph-toolbutton') or e.relatedTarget.classList.contains('enblock-paragraph-colorpicker-box'))
       scope.showTool = false
       cleanMeasurer()
 
@@ -222,7 +229,9 @@ enblock.directive 'enblockParagraph', ->
         scope.showTool = true
         range = document.getSelection().getRangeAt(0)
         position = getPositionFromRange range
-        scope.toolStyle = generateToolStyle position
+        parsedPosition = generateToolStyle position
+        scope.toolStyle = parsedPosition.tool
+        scope.colorPickerStyle = parsedPosition.colorPicker
       else
         scope.showTool = false
 
