@@ -29,6 +29,16 @@ selectElement = (element)->
   selection.addRange newRange
   return newRange
 
+# Get selection
+getSelection = ->
+  selection = document.getSelection()
+  range = selection.getRangeAt 0
+  return {
+    self: selection
+    range: range
+    nodes: range.cloneContents().childNodes
+  }
+
 # Clean measurer
 cleanMeasurer = ->
   measurer = document.querySelector '.enblock-measurer'
@@ -40,6 +50,8 @@ cleanMeasurer = ->
         newElem = document.createTextNode elem.nodeValue
       else if elem.nodeName is 'BR'
         newElem = document.createElement 'br'
+      else if elem.classList.contains 'enblock-style'
+        newElem = elem.cloneNode true
       else
         continue
       parent.insertBefore newElem, measurer
@@ -57,7 +69,6 @@ getPositionFromRange = (range)->
     return range.getBoundingClientRect()
   else
     measurer = document.createElement 'span'
-    selectedContent = range.cloneContents()
     measurer.appendChild range.cloneContents()
     measurer.classList.add 'enblock-measurer'
     range.deleteContents()
@@ -173,6 +184,26 @@ enblock.directive 'enblockParagraph', ->
     ### -- Initial Variable -- ###
     scope.showTool = false
     scope.toolStyle = {}
+
+    # Tool button
+    scope.underline = ->
+      newElem = document.createElement "span"
+      newElem.classList.add 'enblock-style'
+      selection = getSelection()
+      for elem in selection.nodes
+        if elem.nodeType is 3
+          underline = document.createElement 'u'
+          underline.innerHTML = elem.nodeValue
+          newElem.appendChild underline
+        else if elem.classList.contains 'enblock-style'
+          for child in elem.childNodes
+            newElem.appendChild child.cloneNode true
+      measurer = element[0].querySelector('.enblock-measurer')
+      measurer.remove() if measurer?
+      selection.range.insertNode newElem
+      selection.range.selectNode newElem
+      selection.self.removeAllRanges()
+      selection.self.addRange selection.range
 
     # Select paragraph
     scope.select = ->

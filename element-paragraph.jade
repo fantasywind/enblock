@@ -2,14 +2,14 @@ div.enblock-element(ng-click='select()')
   div.enblock-element-header
     span.enblock-block-tag Paragraph
   div.enblock-paragraph-toolbar(ng-style='toolStyle', ng-show='showTool')
-    button.enblock-paragraph-toolbutton(type='button')
+    button.enblock-paragraph-toolbutton(type='button', ng-click='underline()')
       span.fa.fa-underline
-    button.enblock-paragraph-toolbutton(type='button')
+    button.enblock-paragraph-toolbutton(type='button', ng-click='color()')
       span.fa.fa-tint
-    button.enblock-paragraph-toolbutton(type='button')
+    button.enblock-paragraph-toolbutton(type='button', ng-click='alignLeft()')
       span.fa.fa-align-left
-    button.enblock-paragraph-toolbutton(type='button')
+    button.enblock-paragraph-toolbutton(type='button', ng-click='alignCenter()')
       span.fa.fa-align-center
-    button.enblock-paragraph-toolbutton(type='button')
+    button.enblock-paragraph-toolbutton(type='button', ng-click='alignRight()')
       span.fa.fa-align-right
   p(contenteditable='true', ng-class='elemClass', ng-blur='blur($event)', ng-transclude, ng-mouseup='checkSelection()', ng-keydown='checkSelection()')
