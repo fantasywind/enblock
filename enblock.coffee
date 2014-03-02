@@ -121,6 +121,7 @@ enblock.directive 'enblock', ->
     # Set default value if no set.
     $scope.tools = $scope.setTools or DEFAULT.ENABLEDTOOLS
     $scope.mode = $scope.setMode or DEFAULT.MODE
+    $scope.modalStatus = false
 
     _contentField = $element[0].querySelector '.enblock-content'
     _contentField.addEventListener 'keypress', contentKeypress, false

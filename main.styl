@@ -8,6 +8,7 @@ PARAGRAPH_COLOR = #666
   padding 10px 6px
   border 1px solid #CCC
   margin 6px 0
+  position relative
 .enblock-toolbar
   margin 0 6px
 .enblock-content
@@ -53,6 +54,17 @@ PARAGRAPH_COLOR = #666
   &.enblock-paragraph
     p
       color #222
+
+// Modal
+.enblock-modal-wrapper
+  width 100%
+  height 100%
+  position absolute
+  background-color rgba(0, 0, 0, 0.82)
+  transition opacity 0.24s ease-out
+  top 0
+  left 0
+  z-index 100
 
 // Paragraph
 .enblock-paragraph
