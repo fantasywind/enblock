@@ -200,6 +200,7 @@ enblock.directive 'enblockParagraph', ->
             newElem.appendChild child.cloneNode true
       measurer = element[0].querySelector('.enblock-measurer')
       measurer.remove() if measurer?
+      selection.range.deleteContents()
       selection.range.insertNode newElem
       selection.range.selectNode newElem
       selection.self.removeAllRanges()
