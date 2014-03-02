@@ -162,7 +162,8 @@ enblock.directive 'enblockParagraph', ->
   require: '^enblock'
   transclude: true
   templateUrl: 'element-paragraph.html'
-  scope: {}
+  scope:
+    alignSetting: '@align'
   link: (scope, element, attrs, enblock)->
 
     ### -- Utility -- ###
@@ -186,11 +187,18 @@ enblock.directive 'enblockParagraph', ->
       }
 
     ### -- Initial Variable -- ###
+    scope.align = scope.alignSetting or 'left'
     scope.showTool = false
     scope.showColorPicker = false
+    scope.style =
+      textAlign: scope.align
     scope.toolStyle = {}
     scope.colorPickerStyle = {}
     scope.colorList = ['#e74c3c', '#e67e22', '#f1c40f', '#2ecc71', '#3498db', '#34495e', '#9b59b6', '#000']
+
+    # Watch text align change
+    scope.$watch 'align', (newValue)->
+      scope.style.textAlign = newValue
 
     # Bold
     scope.bold = ->

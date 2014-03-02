@@ -1,6 +1,13 @@
 div.enblock-element(ng-click='select()')
   div.enblock-element-header
     span.enblock-block-tag Paragraph
+    div.enblock-paragraph-align
+      button.enblock-paragraph-align-box(type='button', ng-class="align === 'left' ? 'active' : ''", ng-click='align = "left"')
+        span.fa.fa-align-left
+      button.enblock-paragraph-align-box(type='button', ng-class="align === 'center' ? 'active' : ''", ng-click='align = "center"')
+        span.fa.fa-align-center
+      button.enblock-paragraph-align-box(type='button', ng-class="align === 'right' ? 'active' : ''", ng-click='align = "right"')
+        span.fa.fa-align-right
   div.enblock-paragraph-colorpicker(ng-style='colorPickerStyle', ng-show='showColorPicker')
     button.enblock-paragraph-colorpicker-box(type='button', ng-repeat='color in colorList', ng-click='changeForeColor(color)', ng-style='{backgroundColor: "{{color}}"}')
   div.enblock-paragraph-toolbar(ng-style='toolStyle', ng-show='showTool')
@@ -14,4 +21,4 @@ div.enblock-element(ng-click='select()')
       span.fa.fa-tint
     button.enblock-paragraph-toolbutton(type='button', ng-click='link()')
       span.fa.fa-link
-  p(contenteditable='true', ng-class='elemClass', ng-blur='blur($event)', ng-transclude, ng-mouseup='checkSelection()', ng-keydown='checkSelection()')
+  p(contenteditable='true', ng-style="style", ng-class='elemClass', ng-blur='blur($event)', ng-transclude, ng-mouseup='checkSelection()', ng-keydown='checkSelection()')
