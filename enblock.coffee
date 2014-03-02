@@ -29,16 +29,6 @@ selectElement = (element)->
   selection.addRange newRange
   return newRange
 
-# Get selection
-getSelection = ->
-  selection = document.getSelection()
-  range = selection.getRangeAt 0
-  return {
-    self: selection
-    range: range
-    nodes: range.cloneContents().childNodes
-  }
-
 # Clean measurer
 cleanMeasurer = ->
   measurer = document.querySelector '.enblock-measurer'
